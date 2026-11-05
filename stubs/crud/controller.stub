@@ -1,0 +1,95 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\{{modelClass}}Request;
+use App\Models\{{modelClass}};
+use Illuminate\Http\Request;
+
+class {{modelClass}}Controller extends Controller
+{
+    public function index(Request $request)
+    {
+        $validated = $request->validate([
+            'search' => ['sometimes', 'nullable', 'string', 'max:100'],
+            // hapus komentar jika menggunakan is_active
+            // 'status' => ['sometimes', 'nullable', 'in:0,1'],
+        ]);
+
+        $query = {{modelClass}}::query();
+
+        if (!empty($validated['search'])) {
+            $search = trim($validated['search']);
+
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+        // hapus komentar jika menggunakan is_active
+        // if (isset($validated['status']) && $validated['status'] !== '') {
+        //     $query->where('is_active', (bool) $validated['status']);
+        // }
+
+        ${{modelVariablePlural}} = $query->latest()->paginate(10);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'data' => ${{modelVariablePlural}},
+            ]);
+        }
+
+        return view('{{viewFolder}}.index', compact('{{modelVariablePlural}}'));
+    }
+
+    public function store({{modelClass}}Request $request)
+    {
+        ${{modelVariableSingular}} = new {{modelClass}}();
+        ${{modelVariableSingular}}->fill($request->validated());
+        ${{modelVariableSingular}}->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil ditambahkan.',
+            'data' => ${{modelVariableSingular}}->fresh(),
+        ], 201);
+    }
+
+    public function edit({{modelClass}} ${{modelVariableSingular}})
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => ${{modelVariableSingular}},
+        ]);
+    }
+
+    public function update({{modelClass}}Request $request, {{modelClass}} ${{modelVariableSingular}})
+    {
+        ${{modelVariableSingular}}->fill($request->validated());
+        ${{modelVariableSingular}}->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil diperbarui.',
+            'data' => ${{modelVariableSingular}}->fresh(),
+        ]);
+    }
+
+    public function destroy({{modelClass}} ${{modelVariableSingular}})
+    {
+       
+         if (${{modelVariableSingular}}->relations()->exists()) {
+             return response()->json([
+                 'status' => 'error',
+                 'message' => 'Data tidak dapat dihapus karena masih digunakan.',
+             ], 422);
+         }
+
+        ${{modelVariableSingular}}->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data berhasil dihapus.',
+        ]);
+    }
+}

@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\{{modelName}}Request;
+use App\Models\{{modelName}};
+use App\Services\{{modelName}}Service;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class {{modelName}}Controller extends Controller
+{
+    public function __construct(
+        protected {{modelName}}Service ${{singularVariable}}Service
+    ) {}
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request): View|JsonResponse
+    {
+        $filters = $request->validate([
+            'search' => ['sometimes', 'nullable', 'string', 'max:100'],
+            'status' => ['sometimes', 'nullable', 'in:0,1'],
+        ]);
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json($this->{{singularVariable}}Service->getPaginatedList($filters));
+        }
+
+        return view('{{pluralKebab}}.index');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store({{modelName}}Request $request): JsonResponse
+    {
+        ${{singularVariable}} = $this->{{singularVariable}}Service->store($request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data successfully created.',
+            'data' => ${{singularVariable}},
+        ], 201);
+    }
+
+    /**
+     * Show the specified resource for editing (JSON format).
+     */
+    public function edit({{modelName}} ${{singularVariable}}): JsonResponse
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => ${{singularVariable}},
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update({{modelName}}Request $request, {{modelName}} ${{singularVariable}}): JsonResponse
+    {
+        $updated{{modelName}} = $this->{{singularVariable}}Service->update(${{singularVariable}}, $request->validated());
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data successfully updated.',
+            'data' => $updated{{modelName}},
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{modelName}} ${{singularVariable}}): JsonResponse
+    {
+        try {
+            $this->{{singularVariable}}Service->delete(${{singularVariable}});
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data successfully deleted.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+}

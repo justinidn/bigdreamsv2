@@ -1,0 +1,136 @@
+<dialog class="dialog dialog-scrollable" id="{{pluralKebab}}Modal" x-data="{{singularVariable}}Modal()" @open-{{pluralKebab}}-modal.window="openAdd()" @edit-{{pluralKebab}}-modal.window="openEdit($event.detail)">
+    <div class="dialog-header">
+        <h1 class="dialog-title" x-text="isEdit ? 'Edit {{modelName}}' : 'Tambah {{modelName}} Baru'"></h1>
+        <button type="button" class="btn-close" commandfor="{{pluralKebab}}Modal" command="close" aria-label="Close"></button>
+    </div>
+    <div class="dialog-body">
+        <form id="{{pluralKebab}}Form" @submit.prevent="submitForm()">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nama {{modelName}}</label>
+                <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid': errors.name }" id="name" x-model="form.name" required>
+                <template x-if="errors.name">
+                    <div class="invalid-feedback" x-text="errors.name"></div>
+                </template>
+            </div>
+
+            <div class="mb-3" x-show="isEdit">
+                <label class="form-label">Status</label>
+                <div class="form-field">
+                    <div class="switch" style="--bs-switch-width: 2.75rem; --bs-switch-indicator-width: 1.5rem;">
+                        <input type="checkbox" value="1" id="switchActive{{modelName}}" role="switch" switch x-model="form.is_active">
+                    </div>
+                    <label for="switchActive{{modelName}}">Active</label>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="dialog-footer">
+        <x-button-close commandfor="{{pluralKebab}}Modal" command="close" />
+        <x-button-save form="{{pluralKebab}}Form" />
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('{{singularVariable}}Modal', () => ({
+            isEdit: false,
+            originalForm: {},
+            form: {
+                id: '',
+                name: '',
+                is_active: true
+            },
+            errors: {},
+
+            openAdd() {
+                this.isEdit = false;
+                this.form = {
+                    id: '',
+                    name: '',
+                    is_active: true
+                };
+                this.originalForm = {};
+                this.errors = {};
+                document.getElementById('{{pluralKebab}}Modal').showModal();
+            },
+
+            openEdit(item) {
+                this.isEdit = true;
+                this.form = {
+                    id: item.id,
+                    name: item.name,
+                    is_active: Boolean(Number(item.is_active))
+                };
+                this.originalForm = {
+                    ...this.form
+                };
+                this.errors = {};
+                document.getElementById('{{pluralKebab}}Modal').showModal();
+            },
+
+           submitForm() {
+    this.errors = {};
+
+    // Menggunakan seluruh data dari this.form secara utuh
+    const formData = { ...this.form };
+
+    const request = this.isEdit ?
+        axios.put(
+            "{{ route('{{pluralKebab}}.update', ['{{singularVariable}}' => '__ID__']) }}"
+            .replace('__ID__', this.form.id),
+            formData
+        ) :
+        axios.post("{{ route('{{pluralKebab}}.store') }}", formData);
+
+    request
+        .then(response => {
+            document.getElementById('{{pluralKebab}}Modal').close();
+            window.dispatchEvent(new CustomEvent('{{singularVariable}}-saved'));
+
+            window.dispatchEvent(new CustomEvent('show-toast', {
+                detail: {
+                    title: 'Berhasil',
+                    message: response.data.message || 'Data berhasil disimpan.',
+                    type: 'success'
+                }
+            }));
+        })
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status === 422 && error.response.data.errors) {
+                    const backendErrors = error.response.data.errors;
+                    for (const field in backendErrors) {
+                        this.errors[field] = backendErrors[field][0];
+                    }
+                } else if (error.response.status === 403) {
+                    window.dispatchEvent(new CustomEvent('show-toast', {
+                        detail: {
+                            title: 'Akses Ditolak',
+                            message: 'Anda tidak memiliki permission untuk melakukan aksi ini.',
+                            type: 'error'
+                        }
+                    }));
+                } else {
+                    window.dispatchEvent(new CustomEvent('show-toast', {
+                        detail: {
+                            title: 'Kesalahan Server',
+                            message: error.response.data.message || 'Terjadi kesalahan pada server.',
+                            type: 'error'
+                        }
+                    }));
+                }
+            } else {
+                window.dispatchEvent(new CustomEvent('show-toast', {
+                    detail: {
+                        title: 'Koneksi Gagal',
+                        message: 'Tidak dapat terhubung ke server.',
+                        type: 'error'
+                    }
+                }));
+            }
+        });
+}
+        }));
+    });
+</script>

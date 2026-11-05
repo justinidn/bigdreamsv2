@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Models\{{modelClass}};
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class {{modelClass}}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        ${{modelVariableSingular}}Id = $this->route('{{modelVariableSingular}}')?->id;
+        $isUpdate = $this->isMethod('put') || $this->isMethod('patch');
+
+        return [
+            'name' => [$isUpdate ? 'sometimes' : 'required', 'string', 'max:100', Rule::unique('{{tableName}}', 'name')->ignore(${{modelVariableSingular}}Id)],
+            //hapus komentar jika menggunakan is_active
+            // 'is_active' => ['sometimes', 'boolean'],
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'Nama',
+            //hapus komentar jika menggunakan is_active
+            // 'is_active' => 'Status Aktif',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'required' => ':attribute wajib diisi.',
+            'unique' => ':attribute sudah terdaftar, gunakan nama/alias lain.',
+            'max' => ':attribute maksimal :max karakter.',
+        ];
+    }
+}

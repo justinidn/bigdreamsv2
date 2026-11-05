@@ -1,0 +1,6 @@
+// {{modelNamePlural}} Routes
+        Route::get('/{{routePrefix}}', [{{modelClass}}Controller::class, 'index'])->middleware('can:{{routePrefix}}.view')->name('{{routePrefix}}.index');
+        Route::post('/{{routePrefix}}', [{{modelClass}}Controller::class, 'store'])->middleware('can:{{routePrefix}}.create')->name('{{routePrefix}}.store');
+        Route::get('/{{routePrefix}}/{{{modelVariableSingular}}}/edit', [{{modelClass}}Controller::class, 'edit'])->middleware('can:{{routePrefix}}.update')->name('{{routePrefix}}.edit');
+        Route::put('/{{routePrefix}}/{{{modelVariableSingular}}}', [{{modelClass}}Controller::class, 'update'])->middleware('can:{{routePrefix}}.update')->name('{{routePrefix}}.update');
+        Route::delete('/{{routePrefix}}/{{{modelVariableSingular}}}', [{{modelClass}}Controller::class, 'destroy'])->middleware('can:{{routePrefix}}.delete')->name('{{routePrefix}}.destroy');
