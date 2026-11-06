@@ -1,10 +1,13 @@
     <?php
 
+    use App\Http\Controllers\CompanyController;
     use App\Http\Controllers\DepartmentController;
     use App\Http\Controllers\MasterMenuController;
     use App\Http\Controllers\ProfileController;
     use App\Http\Controllers\RoleController;
-    use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionDailyController;
+use App\Http\Controllers\TransactionHourlyController;
+use App\Http\Controllers\UserController;
     use App\Http\Controllers\UserPermissionController;
     use App\Http\Controllers\UserRoleController;
     use Illuminate\Support\Facades\Route;
@@ -111,6 +114,34 @@
                 ->middleware('can:master-menus.update')->name('update');
             Route::delete('/{masterMenu}', [MasterMenuController::class, 'destroy'])
                 ->middleware('can:master-menus.delete')->name('destroy');
+        });
+        // Companies Routes
+        Route::prefix('companies')->name('companies.')->group(function () {
+            Route::get('/', [CompanyController::class, 'index'])
+                ->middleware('can:companies.view')->name('index');
+            // Master-Menus Routes
+            Route::post('/', [CompanyController::class, 'store'])
+                ->middleware('can:companies.create')->name('store');
+
+            Route::get('/{company}/edit', [CompanyController::class, 'edit'])
+                ->middleware('can:companies.update')->name('edit');
+
+            Route::put('/{company}', [CompanyController::class, 'update'])
+                ->middleware('can:companies.update')->name('update');
+            Route::delete('/{company}', [CompanyController::class, 'destroy'])
+                ->middleware('can:companies.delete')->name('destroy');
+        });
+          // Companies Routes
+        Route::prefix('transaction-hourlies')->name('transaction-hourlies.')->group(function () {
+            Route::get('/', [TransactionHourlyController::class, 'index'])
+                ->middleware('can:transaction-hourlies.view')->name('index');
+
+        });
+          // Companies Routes
+        Route::prefix('transaction-dailies')->name('transaction-dailies.')->group(function () {
+            Route::get('/', [TransactionDailyController::class, 'index'])
+                ->middleware('can:transaction-dailies.view')->name('index');
+
         });
     });
 

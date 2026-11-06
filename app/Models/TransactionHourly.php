@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use App\Traits\HasMasterActivityLog;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
+
+#[Table('t_stock_hourly',key:'id',incrementing:true)]
+#[Fillable([
+    'company_id', // Sesuaikan kolom fillable sesuai kebutuhan tabel Anda
+    'open',
+    'close',
+    'high',
+    'low',
+    'volume',
+    'timestamp'
+])]
+class TransactionHourly extends Model
+{
+    use HasFactory, HasMasterActivityLog;
+
+ public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+}

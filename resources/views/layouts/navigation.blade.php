@@ -19,36 +19,57 @@
                             Dashboard
                         </a>
                     </li>
+@canany(['master-menus.view', 'roles.view', 'user-roles.view', 'user-permissions.view'])
                     <li class="nav-item">
                         <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
                             Sites Settings
                         </button>
                         <div class="menu">
+                            @can('master-menus.view')
                             <a class="menu-item" href="{{ route('master-menus.index') }}">
                                 Master Menus
                             </a>
+                            @endcan
+                            @can('roles.view')
                             <a class="menu-item" href="{{ route('roles.index') }}">
                                 Roles
                             </a>
+                            @endcan
+                            @can('user-roles.view')
                             <a class="menu-item" href="{{ route('user-roles.index') }}">
                                 User Roles
-                            </a>
+                            </a>    
+                        @endcan
+                        @can('user-permissions.view')
                             <a class="menu-item" href="{{ route('user-permissions.index') }}">
                                 User Permissions
                             </a>
+                        @endcan
 
                         </div>
                     </li>
+                    @endcanany
+
                     <li class="nav-item">
                         <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
                             Master
                         </button>
                         <div class="menu">
+                            @can('users.view')
                             <a class="menu-item" href="{{ route('users.index') }}">
                                 Users
                             </a>
-                            <a class="menu-item" href="{{ route('departments.index') }}">
-                                Department
+                            @endcan
+                            
+                            <a class="menu-item" href="{{ route('companies.index') }}">
+                                Company
+                            </a>
+
+                            <a class="menu-item" href="{{ route('transaction-hourlies.index') }}">
+                                Transaction Hourly
+                            </a>
+                            <a class="menu-item" href="{{ route('transaction-dailies.index') }}">
+                                Transaction Daily
                             </a>
 
                         </div>
