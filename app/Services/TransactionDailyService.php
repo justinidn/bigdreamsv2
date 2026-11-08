@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\TransactionDaily;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TransactionDailyService
@@ -27,15 +28,27 @@ class TransactionDailyService
             });
         }
 
-        // 2. Filter Start Date dan End Date
-        if (! empty($filters['start_date']) && ! empty($filters['end_date'])) {
-            // Menggunakan whereBetween untuk rentang tanggal
-            $query->whereBetween('date', [$filters['start_date'], $filters['end_date']]);
-        } elseif (! empty($filters['start_date'])) {
-            // Jika hanya start date yang diisi
+        // 2. Filter Start Date dan End Date (default: tanggal data terakhir / hari ini)
+        $hasStart = ! empty($filters['start_date']);
+        $hasEnd   = ! empty($filters['end_date']);
+
+        if (! $hasStart && ! $hasEnd) {
+            // Tidak ada filter tanggal -> pakai tanggal data terakhir
+            $latestDate = TransactionDaily::max('date');
+
+            $defaultDate = $latestDate
+                ? Carbon::parse($latestDate)->toDateString()
+                : Carbon::today()->toDateString(); // fallback jika tabel kosong
+
+            $query->whereDate('date', $defaultDate);
+        } elseif ($hasStart && $hasEnd) {
+            $query->whereBetween('date', [
+                Carbon::parse($filters['start_date'])->startOfDay(),
+                Carbon::parse($filters['end_date'])->endOfDay(),
+            ]);
+        } elseif ($hasStart) {
             $query->whereDate('date', '>=', $filters['start_date']);
-        } elseif (! empty($filters['end_date'])) {
-            // Jika hanya end date yang diisi
+        } else {
             $query->whereDate('date', '<=', $filters['end_date']);
         }
 

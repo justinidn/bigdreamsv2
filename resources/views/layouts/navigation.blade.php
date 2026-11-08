@@ -70,14 +70,19 @@
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('transaction-dailies.index') }}">
-                            Transaction Daily
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('transaction-hourlies.index') }}">
-                            Transaction Hourly
-                        </a>
+                        <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
+                            Transaction
+                        </button>
+                        <div class="menu">
+                            <a class="menu-item" href="{{ route('transaction-hourlies.index') }}">
+                                Hourly
+                            </a>
+                            <a class="menu-item" href="{{ route('transaction-dailies.index') }}">
+                                Daily
+                            </a>
+
+                        </div>
+
                     </li>
                 </ul>
 

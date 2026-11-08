@@ -14,7 +14,7 @@
                     <span class="d-inline-block rounded-3" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Advanced Search">
                         <button class="btn-solid theme-primary btn-sm" type="button" data-bs-toggle="drawer" data-bs-target="#drawerRight" aria-controls="drawerRight"><i class="bi bi-funnel-fill"></i></button>
                     </span>
-                
+
                 </div>
             </div>
 
@@ -26,11 +26,17 @@
                 <div class="drawer-body">
                     <div class="mb-1">
                         <label for="start_date" class="form-label">Start Date</label>
-                        <input type="text" id="start_date" class="form-control form-control-sm" x-model="filters.start_date" placeholder="Start Date">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar-week"></i></span>
+                            <input type="text" class="form-control form-control-sm" id="start_date" data-bs-toggle="datepicker" data-bs-placement="auto" autocomplete="off" placeholder="YYYY-MM-DD" x-model="filters.start_date">
+                        </div>
                     </div>
                     <div class="mb-1">
                         <label for="end_date" class="form-label">End Date</label>
-                        <input type="text" id="end_date" class="form-control form-control-sm" x-model="filters.end_date" placeholder="End Date">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-calendar-week"></i></span>
+                            <input type="text" class="form-control form-control-sm" id="end_date" data-bs-toggle="datepicker" data-bs-placement="auto" autocomplete="off" placeholder="YYYY-MM-DD" x-model="filters.end_date">
+                        </div>
                     </div>
 
                     <x-button-search @click="applyFilters()" />
@@ -38,7 +44,7 @@
             </dialog>
 
             <x-slot name="thead" class="text-center">
-              <th style="width: 50px;" class="text-center">No</th>
+                <th style="width: 50px;" class="text-center">No</th>
                 <th class="text-center">Company Code</th>
                 <th style="width: 240px;" class="text-center">Date</th>
                 <th style="width: 140px;" class="text-center">Open</th>
@@ -59,9 +65,7 @@
                 <td class="text-center" x-text="item.volume"></td>
             </x-slot>
         </x-table-data>
-<!-- 
-        {{-- Include Modal Form --}}
-        @include('transaction-hourlies.partials.transaction-hourlies-form') -->
+
     </div>
 
     <script>
