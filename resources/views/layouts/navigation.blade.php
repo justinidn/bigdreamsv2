@@ -1,4 +1,4 @@
-<nav class="navbar md:navbar-expand bg-1" data-bs-theme="dark">
+<nav class="navbar sm:navbar-expand bg-1 fg-2">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
 
@@ -19,7 +19,7 @@
                             Dashboard
                         </a>
                     </li>
-@canany(['master-menus.view', 'roles.view', 'user-roles.view', 'user-permissions.view'])
+                    @canany(['master-menus.view', 'roles.view', 'user-roles.view', 'user-permissions.view'])
                     <li class="nav-item">
                         <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
                             Sites Settings
@@ -38,18 +38,18 @@
                             @can('user-roles.view')
                             <a class="menu-item" href="{{ route('user-roles.index') }}">
                                 User Roles
-                            </a>    
-                        @endcan
-                        @can('user-permissions.view')
+                            </a>
+                            @endcan
+                            @can('user-permissions.view')
                             <a class="menu-item" href="{{ route('user-permissions.index') }}">
                                 User Permissions
                             </a>
-                        @endcan
+                            @endcan
 
                         </div>
                     </li>
                     @endcanany
-
+                    @canany(['users.view', 'companies.view', 'transaction-hourlies.view', 'transaction-dailies.view'])
                     <li class="nav-item">
                         <button class="nav-link" type="button" data-bs-toggle="menu" aria-expanded="false">
                             Master
@@ -60,19 +60,24 @@
                                 Users
                             </a>
                             @endcan
-                            
+
                             <a class="menu-item" href="{{ route('companies.index') }}">
                                 Company
                             </a>
-
-                            <a class="menu-item" href="{{ route('transaction-hourlies.index') }}">
-                                Transaction Hourly
-                            </a>
-                            <a class="menu-item" href="{{ route('transaction-dailies.index') }}">
-                                Transaction Daily
-                            </a>
+                            @endcanany
 
                         </div>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('transaction-dailies.index') }}">
+                            Transaction Daily
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('transaction-hourlies.index') }}">
+                            Transaction Hourly
+                        </a>
                     </li>
                 </ul>
 

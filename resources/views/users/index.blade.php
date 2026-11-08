@@ -59,7 +59,6 @@
             <x-slot name="tbody">
                 <td class="text-center" x-text="(items.from || 1) + index"></td>
                 <td x-text="item.name"></td>
-                <td class="text-center" x-text="item.department?.department_alias || 'N/A'"></td>
                 <td class="text-center">
                     <span class="badge rounded-pill px-3 py-1" :class="item.is_active ? 'bg-primary' : 'bg-danger'" x-text="item.is_active ? 'Aktif' : 'Non-Aktif'"></span>
                 </td>

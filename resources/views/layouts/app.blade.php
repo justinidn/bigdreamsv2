@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-100 lg:h-screen lg:overflow-hidden flex flex-col">
+<body class="font-sans antialiased sm:h-screen lg:overflow-hidden flex flex-col">
     <!-- Navbar tetap di atas -->
     <header class="w-full shrink-0">
         @include('layouts.navigation')
