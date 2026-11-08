@@ -6,16 +6,14 @@ namespace App\Models;
 
 use App\Traits\HasMasterActivityLog;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\Attributes\Table;
-use Illuminate\Database\Eloquent\Attributes\Timestamps;
-use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 
-#[Table('m_company',key:'id',incrementing:true)]
+#[Table('m_company', key: 'id', incrementing: true)]
 #[Fillable([
     'id',
     'company_code',
@@ -27,7 +25,6 @@ use Illuminate\Database\Eloquent\Attributes\WithoutTimestamps;
 class Company extends Model
 {
     use HasFactory, HasMasterActivityLog;
-
 
     /**
      * Get the attributes that should be cast.
@@ -63,14 +60,14 @@ class Company extends Model
      *
      * @return array<int, string>
      */
-     //Uncomment jika ingin membuat dropdown
-  //  public static function getDropdownOptions(): array
-  // {
-     //   return static::where('is_active', true)
-       //     ->orderBy('id', 'asc')
-        //    ->pluck('name', 'id')
-        //    ->toArray();
-    //}
+    // Uncomment jika ingin membuat dropdown
+    //  public static function getDropdownOptions(): array
+    // {
+    //   return static::where('is_active', true)
+    //     ->orderBy('id', 'asc')
+    //    ->pluck('name', 'id')
+    //    ->toArray();
+    // }
 
     /**
      * Get the user who created the department.
@@ -87,11 +84,13 @@ class Company extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-     public function transaction_daily(): BelongsTo
+
+    public function transaction_daily(): BelongsTo
     {
         return $this->belongsTo(TransactionDaily::class, 'company_id');
     }
-     public function transaction_hourly(): BelongsTo
+
+    public function transaction_hourly(): BelongsTo
     {
         return $this->belongsTo(TransactionHourly::class, 'company_id');
     }

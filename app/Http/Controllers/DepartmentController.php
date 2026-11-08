@@ -20,7 +20,6 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-
     public function index(Request $request): View|JsonResponse
     {
 
@@ -35,6 +34,7 @@ class DepartmentController extends Controller
 
         return view('departments.index');
     }
+
     /**
      * Store a newly created resource in storage.
      */

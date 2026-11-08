@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -32,10 +31,10 @@ class DepartmentSeeder extends Seeder
                 ['id' => $department['id']],
                 [
                     'department_alias' => $department['department_alias'],
-                    'department_name'  => $department['department_name'],
-                    'is_active'        => $department['is_active'],
-                    'created_at'       => now(),
-                    'updated_at'       => now(),
+                    'department_name' => $department['department_name'],
+                    'is_active' => $department['is_active'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]
             );
         }

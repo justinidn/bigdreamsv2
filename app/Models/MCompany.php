@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 #[Fillable([
@@ -57,14 +56,14 @@ class MCompany extends Model
      *
      * @return array<int, string>
      */
-     //Uncomment jika ingin membuat dropdown
-  //  public static function getDropdownOptions(): array
-  // {
-     //   return static::where('is_active', true)
-       //     ->orderBy('id', 'asc')
-        //    ->pluck('name', 'id')
-        //    ->toArray();
-    //}
+    // Uncomment jika ingin membuat dropdown
+    //  public static function getDropdownOptions(): array
+    // {
+    //   return static::where('is_active', true)
+    //     ->orderBy('id', 'asc')
+    //    ->pluck('name', 'id')
+    //    ->toArray();
+    // }
 
     /**
      * Get the user who created the record.

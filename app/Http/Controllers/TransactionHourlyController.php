@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TransactionHourlyRequest;
-use App\Models\TransactionHourly;
 use App\Services\TransactionHourlyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +22,7 @@ class TransactionHourlyController extends Controller
     {
         $filters = $request->validate([
             'search' => ['sometimes', 'nullable', 'string', 'max:100'],
-          
+
         ]);
 
         if ($request->wantsJson() || $request->ajax()) {
@@ -33,6 +31,4 @@ class TransactionHourlyController extends Controller
 
         return view('transaction-hourlies.index');
     }
-
-   
 }

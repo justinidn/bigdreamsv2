@@ -59,6 +59,7 @@ class MasterMenuController extends Controller
             'data' => $updatedMenu,
         ]);
     }
+
     /**
      * Remove the specified resource from storage.
      */

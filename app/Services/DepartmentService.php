@@ -14,7 +14,7 @@ class DepartmentService
     /**
      * Get paginated and filtered departments list.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedList(array $filters): LengthAwarePaginator
     {
@@ -39,7 +39,7 @@ class DepartmentService
     /**
      * Store a newly created department in storage.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function store(array $data): Department
     {
@@ -51,7 +51,7 @@ class DepartmentService
     /**
      * Update the specified department in storage.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(Department $department, array $data): Department
     {
@@ -81,7 +81,7 @@ class DepartmentService
     /**
      * Get formatted paginated list for AJAX/Axios responses.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      * @return array<string, mixed>
      */
     public function getFormattedPaginatedList(array $filters): array

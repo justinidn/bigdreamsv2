@@ -31,8 +31,9 @@ class UserController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json($this->userService->getPaginatedList($filters));
         }
-        //Dropdown Department
+        // Dropdown Department
         $departments = $this->userService->getDepartmentDropdown();
+
         return view('users.index', compact('departments'));
     }
 

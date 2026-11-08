@@ -39,7 +39,7 @@ class MasterMenuService
             ->all();
 
         $menus->getCollection()->transform(
-            fn(MasterMenu $menu): MasterMenu => $this->addPermissionStates($menu, $permissionNames)
+            fn (MasterMenu $menu): MasterMenu => $this->addPermissionStates($menu, $permissionNames)
         );
 
         return $menus;
@@ -220,7 +220,7 @@ class MasterMenuService
                     return ! in_array($action, MasterMenu::PERMISSION_ACTIONS, true)
                         && preg_match('/^[A-Za-z0-9_-]+$/', $action) === 1;
                 })
-                ->map(fn(string $permissionName): array => [
+                ->map(fn (string $permissionName): array => [
                     'action' => substr($permissionName, strlen($prefix)),
                     'enabled' => true,
                 ])
@@ -230,6 +230,7 @@ class MasterMenuService
 
         return $menu;
     }
+
     /**
      * Remove the specified master menu from storage.
      *

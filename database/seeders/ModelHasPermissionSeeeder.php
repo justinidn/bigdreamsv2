@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,8 +15,8 @@ class ModelHasPermissionSeeeder extends Seeder
         foreach ($permissions as $permissionId) {
             $data[] = [
                 'permission_id' => $permissionId,
-                'model_type'    => 'App\Models\User',
-                'model_id'      => 1,
+                'model_type' => 'App\Models\User',
+                'model_id' => 1,
             ];
         }
 

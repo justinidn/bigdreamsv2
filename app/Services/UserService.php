@@ -24,7 +24,7 @@ class UserService
         $query = User::query()
             ->with('department')
             ->withExists([
-                'permissions as can_login' => static fn($query) => $query->where('name', 'system.login'),
+                'permissions as can_login' => static fn ($query) => $query->where('name', 'system.login'),
             ]);
 
         if (! empty($filters['search'])) {

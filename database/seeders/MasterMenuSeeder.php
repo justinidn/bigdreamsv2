@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,12 +23,12 @@ class MasterMenuSeeder extends Seeder
             DB::table('master_menus')->updateOrInsert(
                 ['id' => $menu['id']],
                 [
-                    'name'         => $menu['name'],
+                    'name' => $menu['name'],
                     'display_name' => $menu['display_name'],
-                    'created_by'   => 1,
-                    'updated_by'   => 1,
-                    'created_at'   => now(),
-                    'updated_at'   => now(),
+                    'created_by' => 1,
+                    'updated_by' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]
             );
         }

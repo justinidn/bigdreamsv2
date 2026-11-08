@@ -95,13 +95,13 @@ class RoleService
             ->where('name', '!=', 'system.login')
             ->orderBy('name')
             ->get(['id', 'name'])
-            ->groupBy(fn(Permission $permission): string => Str::before($permission->name, '.'))
+            ->groupBy(fn (Permission $permission): string => Str::before($permission->name, '.'))
             ->map(function ($permissions, string $module): array {
                 return [
                     'key' => $module,
                     'label' => Str::of($module)->replace(['-', '_'], ' ')->title()->toString(),
                     'permissions' => $permissions
-                        ->map(fn(Permission $permission): array => [
+                        ->map(fn (Permission $permission): array => [
                             'id' => $permission->id,
                             'name' => $permission->name,
                             'label' => Str::of(Str::after($permission->name, '.'))
@@ -164,7 +164,7 @@ class RoleService
             DB::table('role_has_permissions')->insert(
                 collect($selectedPermissionIds)
                     ->unique()
-                    ->map(fn(int $permissionId): array => [
+                    ->map(fn (int $permissionId): array => [
                         'role_id' => $role->id,
                         'permission_id' => $permissionId,
                     ])

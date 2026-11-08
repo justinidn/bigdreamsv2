@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 class MakeCrudCommand extends Command
 {
     protected $signature = 'make:crud {name : Nama Model (contoh: User, Department, Product)}';
+
     protected $description = 'Membuat modul CRUD lengkap (Model, Controller, Service, Request, Views) sesuai standar enterprise dengan fitur skip jika file sudah ada';
 
     public function handle(): void
@@ -51,14 +52,15 @@ class MakeCrudCommand extends Command
 
         if (File::exists($path)) {
             $this->line("<comment>Skipped Model (sudah ada):</comment> {$path}");
+
             return;
         }
 
         $stub = File::get(base_path('stubs/custom-crud/model.stub'));
         $stub = str_replace([
-            '{{modelName}}'
+            '{{modelName}}',
         ], [
-            $modelName
+            $modelName,
         ], $stub);
 
         File::ensureDirectoryExists(dirname($path));
@@ -73,6 +75,7 @@ class MakeCrudCommand extends Command
 
         if (File::exists($path)) {
             $this->line("<comment>Skipped Request (sudah ada):</comment> {$path}");
+
             return;
         }
 
@@ -80,11 +83,11 @@ class MakeCrudCommand extends Command
         $stub = str_replace([
             '{{class}}',
             '{{singularVariable}}',
-            '{{pluralSnake}}'
+            '{{pluralSnake}}',
         ], [
             "{$modelName}Request",
             $singularVariable,
-            $pluralSnake
+            $pluralSnake,
         ], $stub);
 
         File::ensureDirectoryExists(dirname($path));
@@ -99,6 +102,7 @@ class MakeCrudCommand extends Command
 
         if (File::exists($path)) {
             $this->line("<comment>Skipped Service (sudah ada):</comment> {$path}");
+
             return;
         }
 
@@ -106,11 +110,11 @@ class MakeCrudCommand extends Command
         $stub = str_replace([
             '{{modelName}}',
             '{{variableName}}',
-            '{{singularVariable}}'
+            '{{singularVariable}}',
         ], [
             $modelName,
             $variableName,
-            $singularVariable
+            $singularVariable,
         ], $stub);
 
         File::ensureDirectoryExists(dirname($path));
@@ -125,6 +129,7 @@ class MakeCrudCommand extends Command
 
         if (File::exists($path)) {
             $this->line("<comment>Skipped Controller (sudah ada):</comment> {$path}");
+
             return;
         }
 
@@ -134,13 +139,13 @@ class MakeCrudCommand extends Command
             '{{pluralKebab}}',
             '{{pluralSnake}}',
             '{{variableName}}',
-            '{{singularVariable}}'
+            '{{singularVariable}}',
         ], [
             $modelName,
             $pluralKebab,
             $pluralSnake,
             $variableName,
-            $singularVariable
+            $singularVariable,
         ], $stub);
 
         File::ensureDirectoryExists(dirname($path));
@@ -167,12 +172,12 @@ class MakeCrudCommand extends Command
                 '{{pluralKebab}}',
                 '{{singularVariable}}',
                 '{{variableName}}',
-                '{{modelName}}'
+                '{{modelName}}',
             ], [
                 $pluralKebab,
                 $singularVariable,
                 $variableName,
-                $modelName
+                $modelName,
             ], $indexStub);
             File::put($indexPath, $indexStub);
             $this->line("<info>Created Index View:</info> {$indexPath}");
@@ -186,11 +191,11 @@ class MakeCrudCommand extends Command
             $formStub = str_replace([
                 '{{pluralKebab}}',
                 '{{singularVariable}}',
-                '{{modelName}}'
+                '{{modelName}}',
             ], [
                 $pluralKebab,
                 $singularVariable,
-                $modelName
+                $modelName,
             ], $formStub);
             File::put($formPath, $formStub);
             $this->line("<info>Created Form View:</info> {$formPath}");

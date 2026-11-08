@@ -14,13 +14,13 @@ class CompanyService
     /**
      * Get paginated and filtered companies list.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      */
     public function getPaginatedList(array $filters): LengthAwarePaginator
     {
         $query = Company::query();
         // Uncomment the line below if you want to eager load the 'department' relationship
-        //$query = Company::query()->with('relasi');
+        // $query = Company::query()->with('relasi');
 
         if (! empty($filters['search'])) {
             $search = trim($filters['search']);
@@ -32,15 +32,13 @@ class CompanyService
             });
         }
 
-
-
         return $query->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
      * Store a newly created company in storage.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function store(array $data): Company
     {
@@ -52,7 +50,7 @@ class CompanyService
     /**
      * Update the specified company in storage.
      *
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public function update(Company $company, array $data): Company
     {
@@ -83,7 +81,7 @@ class CompanyService
     /**
      * Get formatted paginated list for AJAX/Axios responses.
      *
-     * @param array<string, mixed> $filters
+     * @param  array<string, mixed>  $filters
      * @return array<string, mixed>
      */
     public function getFormattedPaginatedList(array $filters): array
@@ -109,7 +107,7 @@ class CompanyService
      * @return array<int, string>
      */
     // public function getDepartmentDropdown(): array
-    //{
+    // {
     //   return Department::getDropdownOptions();
-    //}
+    // }
 }
