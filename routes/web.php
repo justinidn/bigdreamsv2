@@ -5,6 +5,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\MasterMenuController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ScreenerController;
 use App\Http\Controllers\TransactionDailyController;
 use App\Http\Controllers\TransactionHourlyController;
 use App\Http\Controllers\UserController;
@@ -140,6 +141,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('transaction-dailies')->name('transaction-dailies.')->group(function () {
         Route::get('/', [TransactionDailyController::class, 'index'])
             ->middleware('can:transaction-dailies.view')->name('index');
+    });
+    // Companies Routes
+    Route::prefix('screeners')->name('screeners.')->group(function () {
+        Route::get('/', [ScreenerController::class, 'index'])
+            ->middleware('can:screeners.view')->name('index');
     });
 });
 

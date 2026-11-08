@@ -80,9 +80,12 @@
                             <a class="menu-item" href="{{ route('transaction-dailies.index') }}">
                                 Daily
                             </a>
-
                         </div>
-
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('screeners.index') }}">
+                            Screeners
+                        </a>
                     </li>
                 </ul>
 
