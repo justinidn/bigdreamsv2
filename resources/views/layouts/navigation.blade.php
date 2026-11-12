@@ -60,10 +60,12 @@
                                 Users
                             </a>
                             @endcan
+                            @can('companies.view')
 
                             <a class="menu-item" href="{{ route('companies.index') }}">
                                 Company
                             </a>
+                            @endcan
                             @endcanany
 
                         </div>
