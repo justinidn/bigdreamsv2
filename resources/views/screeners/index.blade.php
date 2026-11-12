@@ -49,14 +49,21 @@
                 <th style="width: 50px;" class="text-center">No</th>
                 <th class="text-center">Company Code</th>
                 <th style="width: 140px;" class="text-center">Date</th>
-                <th style="width: 140px;" class="text-center">Pattern</th>
+                <th style="width: 140px;" class="text-center">Current Price</th>
+                <th style="width: 140px;" class="text-center">Next Date</th>
+                <th style="width: 140px;" class="text-center">Closing Price</th>
+                <th style="width: 140px;" class="text-center">Result</th>
+
             </x-slot>
 
             <x-slot name="tbody">
                 <td class="text-center" x-text="(items.from || 1) + index"></td>
                 <td x-text="item.company?.company_code"></td>
                 <td class="text-center" x-text="item.date"></td>
-                <td class="text-center" x-text="item.pattern_name"></td>
+                <td class="text-center" x-text="item.close_price"></td>
+                <td class="text-center" x-text="item.next_date"></td>
+                <td class="text-center" x-text="item.next_high_price"></td>
+                <td class="text-center" x-text="item.is_profitable"></td>
             </x-slot>
         </x-table-data>
 

@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Auth;
     'company_id', // Sesuaikan kolom fillable sesuai kebutuhan tabel Anda
     'date',
     'pattern_name',
+    'close_price',
+    'next_date',
+    'next_high_price',
+    'is_profitable'
+
 ])]
 class Screener extends Model
 {
