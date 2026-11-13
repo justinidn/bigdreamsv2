@@ -1,13 +1,12 @@
 <x-app-layout>
     <div class="container-fluid py-3">
-        <div class="row g-3">
-            <div class="col-12 col-lg-6 col-xl-5">
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+            <div class="col">
                 <x-screener-widget title="Latest Screener" />
             </div>
 
-            {{-- Slot untuk card lainnya di samping kanan --}}
-            <div class="col-12 col-lg-6 col-xl-7">
-                {{-- Card berikutnya bisa ditaruh di sini --}}
+            <div class="col">
+                <x-volume-breakout-widget title="Volume Breakout" />
             </div>
         </div>
     </div>

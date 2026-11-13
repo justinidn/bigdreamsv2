@@ -121,6 +121,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])
             ->middleware('can:companies.view')->name('index');
 
+        Route::get('/volume-breakouts', [CompanyController::class, 'volumeBreakouts'])
+            ->middleware('can:companies.view')->name('volume-breakouts');
+
         Route::post('/', [CompanyController::class, 'store'])
             ->middleware('can:companies.create')->name('store');
 

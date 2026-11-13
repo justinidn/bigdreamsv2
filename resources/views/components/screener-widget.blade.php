@@ -1,9 +1,13 @@
 @props([
 'title' => 'Screener Watchlist',
+'height' => '540px',
 ])
 
 @can('screeners.view')
-<div x-data="screenerDashboardWidget" data-detail-url="{{ route('companies.index') }}">
+<div x-data="screenerDashboardWidget"
+    data-detail-url="{{ route('companies.index') }}"
+    data-static-card-widget
+    style="--widget-card-height: {{ $height }};">
     <x-table-data name="dashboardScreenersList" endpoint="{{ route('screeners.index', ['per_page' => 500]) }}" :pagination="false">
         <x-slot name="header">
             <div class="d-flex justify-content-between align-items-center gap-2">
@@ -106,6 +110,42 @@
         </x-slot>
     </x-table-data>
 </div>
+
+@once('static-card-widget-style')
+<style>
+    [data-static-card-widget] .card {
+        height: var(--widget-card-height, 540px);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    [data-static-card-widget] .card-header,
+    [data-static-card-widget] .card-footer {
+        flex-shrink: 0;
+    }
+
+    [data-static-card-widget] .card-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    [data-static-card-widget] .table-responsive {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    [data-static-card-widget] .table-responsive thead {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+</style>
+@endonce
 
 @once
 <script>
