@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
+use App\Models\Screener;
+use App\Models\TransactionDaily;
+use App\Models\TransactionHourly;
 use App\Services\CompanyService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -91,5 +94,65 @@ class CompanyController extends Controller
                 'message' => $e->getMessage(),
             ], 422);
         }
+    }
+    /**
+     * Display the specified company along with its latest daily/hourly price history.
+     */
+    public function show(Request $request, Company $company): View|JsonResponse
+    {
+        if ($request->wantsJson() || $request->ajax()) {
+            $validated = $request->validate([
+                'timeframe' => ['sometimes', 'in:daily,hourly'],
+            ]);
+
+            $timeframe = $validated['timeframe'] ?? 'daily';
+
+            if ($timeframe === 'hourly') {
+                $prices = TransactionHourly::query()
+                    ->where('company_id', $company->id)
+                    ->orderByDesc('timestamp')
+                    ->limit(20)
+                    ->get()
+                    ->map(fn(TransactionHourly $row): array => [
+                        'id' => $row->id,
+                        'time_label' => $row->timestamp,
+                        'open' => $row->open,
+                        'high' => $row->high,
+                        'low' => $row->low,
+                        'close' => $row->close,
+                        'volume' => $row->volume,
+                    ]);
+            } else {
+                $prices = TransactionDaily::query()
+                    ->where('company_id', $company->id)
+                    ->orderByDesc('date')
+                    ->limit(20)
+                    ->get()
+                    ->map(fn(TransactionDaily $row): array => [
+                        'id' => $row->id,
+                        'time_label' => $row->date,
+                        'open' => $row->open,
+                        'high' => $row->high,
+                        'low' => $row->low,
+                        'close' => $row->close,
+                        'volume' => $row->volume,
+                    ]);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'timeframe' => $timeframe,
+                'data' => $prices,
+            ]);
+        }
+
+        $latestScreener = Screener::query()
+            ->where('company_id', $company->id)
+            ->orderByDesc('date')
+            ->first();
+
+        return view('companies.show', [
+            'company' => $company,
+        ]);
     }
 }

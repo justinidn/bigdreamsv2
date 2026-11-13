@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ScreenerRequest;
-use App\Models\Screener;
 use App\Services\ScreenerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,6 +24,7 @@ class ScreenerController extends Controller
             'search' => ['sometimes', 'nullable', 'string', 'max:100'],
             'start_date' => ['sometimes', 'nullable', 'date'],
             'end_date' => ['sometimes', 'nullable', 'date', 'after_or_equal:start_date'],
+            'per_page' => ['sometimes', 'nullable', 'integer', 'min:1', 'max:500'],
         ]);
 
         if ($request->wantsJson() || $request->ajax()) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Screener;
+use App\Models\TransactionDaily;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -19,12 +20,17 @@ class ScreenerService
      */
     public function getPaginatedList(array $filters): LengthAwarePaginator
     {
-        //$query = Screener::query();
-        // Uncomment the line below if you want to eager load the 'department' relationship
-        $query = Screener::query()->with('company');
+        $query = Screener::query()
+            ->with('company')
+            ->addSelect([
+                'daily_volume' => TransactionDaily::select('volume')
+                    ->whereColumn('company_id', 't_stock_screening.company_id')
+                    ->whereColumn('date', 't_stock_screening.date')
+                    ->limit(1),
+            ]);
 
         if (! empty($filters['search'])) {
-            $search = trim($filters['search']);
+            $search = trim((string) $filters['search']);
 
             $query->whereHas('company', function ($q) use ($search): void {
                 $q->where('company_code', 'like', "%{$search}%")
@@ -32,18 +38,16 @@ class ScreenerService
             });
         }
 
-
-        // 2. Filter Start Date dan End Date (default: tanggal data terakhir / hari ini)
+        // Filter Start Date dan End Date (selalu default ke tanggal data terakhir jika tanggal tidak diisi)
         $hasStart = ! empty($filters['start_date']);
         $hasEnd   = ! empty($filters['end_date']);
 
         if (! $hasStart && ! $hasEnd) {
-            // Tidak ada filter tanggal -> pakai tanggal data terakhir
             $latestDate = Screener::max('date');
 
             $defaultDate = $latestDate
                 ? Carbon::parse($latestDate)->toDateString()
-                : Carbon::today()->toDateString(); // fallback jika tabel kosong
+                : Carbon::today()->toDateString();
 
             $query->whereDate('date', $defaultDate);
         } elseif ($hasStart && $hasEnd) {
@@ -57,7 +61,9 @@ class ScreenerService
             $query->whereDate('date', '<=', $filters['end_date']);
         }
 
-        return $query->orderBy('id', 'desc')->paginate(10);
+        $perPage = isset($filters['per_page']) ? (int) $filters['per_page'] : 10;
+
+        return $query->orderBy('id', 'desc')->paginate($perPage);
     }
 
     /**
@@ -93,11 +99,6 @@ class ScreenerService
      */
     public function delete(Screener $screener): bool
     {
-        // Contoh validasi relasi sebelum dihapus (sesuaikan dengan relasi model Anda jika ada)
-        // if ($screener->someRelation()->exists()) {
-        //     throw new Exception('Data cannot be deleted because it is still related to other data.');
-        // }
-
         return DB::transaction(function () use ($screener): bool {
             return (bool) $screener->delete();
         });
@@ -126,13 +127,4 @@ class ScreenerService
             ],
         ];
     }
-    /**
-     * Get department options for dropdown.
-     *
-     * @return array<int, string>
-     */
-    // public function getDepartmentDropdown(): array
-    //{
-    //   return Department::getDropdownOptions();
-    //}
 }

@@ -18,7 +18,15 @@ export default function dataTable(endpoint, showPagination) {
         loading: false,
 
         init() {
+            const urlParams = new URLSearchParams(window.location.search);
+            ['search', 'start_date', 'end_date'].forEach((key) => {
+                if (urlParams.has(key) && urlParams.get(key) !== '') {
+                    this.filters[key] = urlParams.get(key);
+                }
+            });
+
             this.fetchData(1);
+
             this.$nextTick(() => {
                 const thElements = this.$el.querySelectorAll('thead th');
                 if (thElements.length > 0) {

@@ -120,15 +120,19 @@ Route::middleware('auth')->group(function () {
     Route::prefix('companies')->name('companies.')->group(function () {
         Route::get('/', [CompanyController::class, 'index'])
             ->middleware('can:companies.view')->name('index');
-        // Master-Menus Routes
+
         Route::post('/', [CompanyController::class, 'store'])
             ->middleware('can:companies.create')->name('store');
+
+        Route::get('/{company}', [CompanyController::class, 'show'])
+            ->middleware('can:companies.view')->name('show');
 
         Route::get('/{company}/edit', [CompanyController::class, 'edit'])
             ->middleware('can:companies.update')->name('edit');
 
         Route::put('/{company}', [CompanyController::class, 'update'])
             ->middleware('can:companies.update')->name('update');
+
         Route::delete('/{company}', [CompanyController::class, 'destroy'])
             ->middleware('can:companies.delete')->name('destroy');
     });
