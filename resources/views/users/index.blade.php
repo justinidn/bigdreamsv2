@@ -49,7 +49,6 @@
             <x-slot name="thead" class="text-center">
                 <th style="width: 50px;" class="text-center">No</th>
                 <th class="text-center">Nama</th>
-                <th style="width: 200px;" class="text-center">Department</th>
                 <th style="width: 140px;" class="text-center">Status</th>
                 <th style="width: 140px;" class="text-center">Can Login</th>
                 <th style="width: 120px;" class="text-center">Action</th>

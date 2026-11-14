@@ -1,6 +1,6 @@
 <nav class="navbar sm:navbar-expand bg-1 fg-2">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
+        <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Big Dreams') }}</a>
 
         <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarDarkDrawer" aria-controls="navbarDarkDrawer" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon" aria-hidden="true"></span>

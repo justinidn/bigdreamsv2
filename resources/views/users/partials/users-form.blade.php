@@ -13,7 +13,7 @@
                 </template>
             </div>
             <div class="mb-3">
-                <label for="nrk" class="form-label">NRK</label>
+                <label for="nrk" class="form-label">Username</label>
                 <input type="text" class="form-control form-control-sm" :class="{ 'is-invalid': errors.nrk }" id="nrk" x-model="form.nrk" required>
                 <template x-if="errors.nrk">
                     <div class="invalid-feedback" x-text="errors.nrk"></div>
